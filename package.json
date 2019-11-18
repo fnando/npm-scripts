@@ -1,0 +1,11 @@
+{
+  "name": "@fnando/npm-scripts",
+  "version": "0.1.0",
+  "license": "MIT",
+  "bin": {
+    "run-eslint": "./bin/run-eslint.js",
+    "run-prettier": "./bin/run-prettier.js",
+    "no-commit-on-master": "./bin/no-commit-on-master.js",
+    "install-npm-packages-if-needed": "./bin/install-npm-packages-if-needed.js"
+  }
+}

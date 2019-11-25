@@ -12,9 +12,9 @@ This package contains scripts to be used with
 [husky](https://github.com/typicode/husky) and
 [lint-staged](https://github.com/okonet/lint-staged).
 
-- `run-eslint`: Runs `eslint` with staged files or defaults to the provided
+- `eslint`: Runs `eslint` with staged files or defaults to the provided
   `PATTERN`.
-- `run-prettier`: Runs `prettier` with staged files or defaults to the provided
+- `prettier`: Runs `prettier` with staged files or defaults to the provided
   `PATTERN`.
 - `no-commit-on-master`: Fails whenever you try to directly commit to `master`
   branch.
@@ -23,7 +23,7 @@ This package contains scripts to be used with
   `package-lock.json`, respectively.
 - `webpack-start`: Build assets for development with webpack.
 - `webpack-build`: Build assets for production with webpack.
-- `webpack-test`: Run tests using jest and webpack.
+- `test`: Run tests using jest.
 
 Add something like the following to your package.json file.
 

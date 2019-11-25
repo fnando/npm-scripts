@@ -3,21 +3,17 @@
 
 const path = require("path");
 const fs = require("fs");
-const childProcess = require("child_process");
 
-const [, , command] = process.argv;
-const filePath = path.join(__dirname, `${path.basename(command)}.js`);
+const [, , commandName] = process.argv;
+const commandPath = path.resolve(
+  path.join(__dirname, "..", "commands", `${path.basename(commandName)}.js`),
+);
+const args = process.argv.slice(3);
 
-if (!fs.existsSync(filePath)) {
-  console.error(`ERROR: invalid command (${command})`);
+if (!fs.existsSync(commandPath)) {
+  console.error(`ERROR: invalid command (${commandName})`);
   process.exit(1);
 }
-
-const response = childProcess.spawn(
-  "node",
-  [filePath, ...process.argv.slice(3)],
-  { stdio: "inherit" },
-);
 
 process.stdout.on("data", (data) => {
   console.log(data.toString());
@@ -27,6 +23,6 @@ process.stderr.on("data", (data) => {
   console.error(data.toString());
 });
 
-response.on("exit", (code) => {
-  process.exit(code);
-});
+const command = require(commandPath);
+
+command(args);

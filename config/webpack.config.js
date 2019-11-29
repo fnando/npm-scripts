@@ -3,12 +3,14 @@
 const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
+const glob = require("glob");
 
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const Manifest = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const css = require("./webpack/css");
 const files = require("./webpack/files");
@@ -22,6 +24,7 @@ module.exports = (env, argv) => {
   const defaultOptions = {
     assetName: isProduction ? "[name]-[hash]" : "[name]",
     publicPath: "/dist/",
+    templatesPattern: "./{app,src}/**/*.{erb,tsx,jsx,js,ts}",
   };
   const options = { ...defaultOptions, ...pkg.webpack };
   const { entry, outputDir, assetName } = options;
@@ -57,6 +60,7 @@ module.exports = (env, argv) => {
       isProduction && new CleanWebpackPlugin(),
       isProduction && new webpack.optimize.OccurrenceOrderPlugin(true),
       isProduction && new UglifyJSPlugin({ sourceMap: true }),
+      new PurgecssPlugin({ paths: glob.sync(options.templatesPattern) }),
       new MiniCssExtractPlugin({
         filename: `${assetName}.css`,
       }),

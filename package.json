@@ -50,6 +50,7 @@
     "postcss": "x",
     "postcss-import": "^12.0.1",
     "postcss-loader": "x",
+    "purgecss-webpack-plugin": "^1.6.0",
     "react": "x",
     "react-dom": "x",
     "react-test-renderer": "x",

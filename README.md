@@ -60,7 +60,10 @@ available options.
       "site": "./app/frontend/site/index.ts"
     },
     "outputDir": "./public/dist",
-    "baseDir": "./app/frontend"
+    "baseDir": "./app/frontend",
+    "purgeCSS": {
+      "whitelistPatterns": ["^button-\\w+$"]
+    }
   }
 }
 ```

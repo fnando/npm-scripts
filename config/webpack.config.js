@@ -25,6 +25,9 @@ module.exports = (env, argv) => {
     assetName: isProduction ? "[name]-[hash]" : "[name]",
     publicPath: "/dist/",
     templatesPattern: "./{app,src}/**/*.{erb,tsx,jsx,js,ts}",
+    purgeCSS: {
+      whitelistPatterns: [],
+    },
   };
   const options = { ...defaultOptions, ...pkg.webpack };
   const { entry, outputDir, assetName } = options;
@@ -33,6 +36,13 @@ module.exports = (env, argv) => {
     console.error("ERROR: You must define the `webpack` key on package.json.");
     process.exit(1);
   }
+
+  const purgeCSS = {
+    ...options.purgeCSS,
+    whitelistPatterns: options.purgeCSS.whitelistPatterns.map(
+      (pattern) => new RegExp(pattern),
+    ),
+  };
 
   const config = {
     entry,
@@ -60,7 +70,10 @@ module.exports = (env, argv) => {
       isProduction && new CleanWebpackPlugin(),
       isProduction && new webpack.optimize.OccurrenceOrderPlugin(true),
       isProduction && new UglifyJSPlugin({ sourceMap: true }),
-      new PurgecssPlugin({ paths: glob.sync(options.templatesPattern) }),
+      new PurgecssPlugin({
+        paths: glob.sync(options.templatesPattern),
+        ...purgeCSS,
+      }),
       new MiniCssExtractPlugin({
         filename: `${assetName}.css`,
       }),

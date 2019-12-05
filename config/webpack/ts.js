@@ -1,5 +1,5 @@
 module.exports = () => ({
-  test: /\.ts(x?)$/,
+  test: /\.[jt]s(x?)$/,
   exclude: /node_modules/,
   use: [
     {

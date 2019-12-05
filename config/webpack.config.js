@@ -69,7 +69,11 @@ module.exports = (env, argv) => {
       }),
       isProduction && new CleanWebpackPlugin(),
       isProduction && new webpack.optimize.OccurrenceOrderPlugin(true),
-      isProduction && new UglifyJSPlugin({ sourceMap: true }),
+      isProduction &&
+        new UglifyJSPlugin({
+          sourceMap: true,
+          include: new RegExp(options.baseDir.replace(/^\./, "")),
+        }),
       new PurgecssPlugin({
         paths: glob.sync(options.templatesPattern),
         ...purgeCSS,
